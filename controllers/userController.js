@@ -7,6 +7,16 @@ const msg = require('../configs/responseMessages')
 const resFormat = require('../configs/responseFormat')
 
 const userMethods = {
+    getUserById: async (req, res) => {
+        try {
+            let id = req.params.id
+            let data = await User.findById(id)
+            res.json(resFormat(true,msg.successGetUsers,data))
+        }
+        catch (err) {
+            res.json(resFormat(false,null,err))
+        }
+    },
     getAllUsers: async (req, res) => {
         try {
             let users = await User.find().select('username created').exec()
