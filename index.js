@@ -1,9 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const apiRoutes = require('./routes/api')
 const mongoose = require('mongoose')
-const resFormat = require('./configs/response-format')
-const msg = require('./configs/response-messages')
+
+const userRoutes = require('./routes/userRouter')
+const fileRoutes = require('./routes/fileRouter')
+const resFormat = require('./configs/responseFormat')
+const msg = require('./configs/responseMessages')
 
 require('dotenv').config()
 
@@ -13,7 +15,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 
-app.use('/api', apiRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/file', fileRoutes)
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found')

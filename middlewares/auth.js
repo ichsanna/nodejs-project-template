@@ -1,8 +1,8 @@
 require('dotenv').config()
 const jwt = require('jsonwebtoken');
-const User = require('./../models/user')
-const resFormat = require('../configs/response-format')
-const msg = require('../configs/response-messages')
+const User = require('../models/userModel')
+const resFormat = require('../configs/responseFormat')
+const msg = require('../configs/responseMessages')
 
 async function verifyToken(req, res, next) {
     try {
@@ -15,6 +15,5 @@ async function verifyToken(req, res, next) {
         return res.status(401).json(resFormat(false,msg.failedAuth,err));
     }
 }
-
 
 module.exports = verifyToken
