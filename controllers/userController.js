@@ -10,8 +10,8 @@ const userMethods = {
     getUserById: async (req, res) => {
         try {
             let id = req.params.id
-            let data = await User.findById(id)
-            res.json(resFormat(true,msg.successGetUsers,data))
+            let data = await User.findById(id).select('username created')
+            res.json(resFormat(true,msg.successGetUser,data))
         }
         catch (err) {
             res.json(resFormat(false,null,err))

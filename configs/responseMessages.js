@@ -6,6 +6,7 @@ const messages = {
     successRegister: "Registered successfully",
     duplicateUsername: "Username already exists",
     noUsers: "No users found",
+    successGetUser: "User data retrieved successfully",
     successGetUsers: "Users data retrieved successfully",
     successUpload: "File uploaded successfully",
     failedUpload: "File upload failed",
