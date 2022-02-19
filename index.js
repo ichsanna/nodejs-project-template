@@ -25,8 +25,7 @@ app.use(function (req, res, next) {
 });
 
 app.use((error, req, res, next) => {
-    res.status(error.status || 500)
-    res.json(resFormat(false,msg.invalidRoute,null));
+    res.status(error.status || 500).json(resFormat(false,msg.invalidRoute,null));
 });
 
 app.listen(process.env.PORT || 3000, () => {

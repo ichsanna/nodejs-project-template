@@ -11,19 +11,19 @@ const userMethods = {
         try {
             let id = req.params.id
             let data = await User.findById(id).select('username created')
-            res.json(resFormat(true,msg.successGetUser,data))
+            res.status(200).json(resFormat(true,msg.successGetUser,data))
         }
         catch (err) {
-            res.json(resFormat(false,null,err))
+            res.status(400).json(resFormat(false,null,err))
         }
     },
     getAllUsers: async (req, res) => {
         try {
             let users = await User.find().select('username created').exec()
-            res.json(resFormat(true,msg.successGetUsers,users))
+            res.status(200).json(resFormat(true,msg.successGetUsers,users))
         }
         catch (err) {
-            res.json(resFormat(false,null,err))
+            res.status(400).json(resFormat(false,null,err))
         }
     },
     userLogin: async (req,res)=>{
@@ -35,18 +35,18 @@ const userMethods = {
                 let comparePassword = await bcrypt.compare(password, getUser.password)
                 let token = signToken(username)
                 if (comparePassword) {
-                    res.json(resFormat(true,msg.successLogin,{ token: token }))
+                    res.status(200).json(resFormat(true,msg.successLogin,{ token: token }))
                 }
                 else {
-                    res.json(resFormat(false,msg.incorrectUsernamePassword,null))
+                    res.status(401).json(resFormat(false,msg.incorrectUsernamePassword,null))
                 }
             }
             else {
-                res.json(resFormat(false,msg.incorrectUsernamePassword,null))
+                res.status(404).json(resFormat(false,msg.incorrectUsernamePassword,null))
             }
         }
         catch (err) {
-            res.json(resFormat(false,null,err))
+            res.status(400).json(resFormat(false,null,err))
         }
     },
     userRegister: async (req,res)=>{
@@ -55,7 +55,7 @@ const userMethods = {
             let password = req.body.password
             let getUser = await User.findOne({ username: username }).select('username created')
             if (getUser) {
-                res.json(resFormat(false,msg.duplicateUsername,getUser))
+                res.status(409).json(resFormat(false,msg.duplicateUsername,getUser))
             }
             else {
                 let encryptedPassword = await bcrypt.hash(password, 10)
@@ -66,11 +66,11 @@ const userMethods = {
                 
                 newUser.save()
                 let token = signToken(username)
-                res.json(resFormat(true,msg.successLogin,{ token: token }))
+                res.status(201).json(resFormat(true,msg.successLogin,{ token: token }))
             }
         }
         catch (err) {
-            res.json(resFormat(false,null,err))
+            res.status(400).json(resFormat(false,null,err))
         }
     }
 }

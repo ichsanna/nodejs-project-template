@@ -10,14 +10,14 @@ const fileMethods = {
             let filename = req.file.originalname
             let filetype = req.file.mimetype
             let filesize = req.file.size
-            res.json(resFormat(true,msg.successUpload,{
+            res.status(201).json(resFormat(true,msg.successUpload,{
                 filename: filename,
                 filetype: filetype,
                 filesize: filesize
             }))
         }
         catch (err) {
-            res.json(resFormat(false,null,err))
+            res.status(400).json(resFormat(false,null,err))
         }
     },
     downloadFile: (req, res) => {
@@ -25,14 +25,14 @@ const fileMethods = {
             let filename = req.params.filename
             const location = `${__dirname}/../uploads/`+filename;
             if (fs.existsSync(location)){
-                res.download(location);
+                res.status(200).download(location);
             }
             else{
-                res.json(resFormat(false,msg.noFileFound,null))
+                res.status(404).json(resFormat(false,msg.noFileFound,null))
             }
         }
         catch (err) {
-            res.json(resFormat(false,null,err))
+            res.status(400).json(resFormat(false,null,err))
         }
     }
 }
