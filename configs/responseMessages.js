@@ -5,7 +5,7 @@ const messages = {
     successLogin: "Logged in successfully",
     successRegister: "Registered successfully",
     duplicateUsername: "Username already exists",
-    noUsers: "No users found",
+    noUser: "No user found",
     successGetUser: "User data retrieved successfully",
     successGetUsers: "Users data retrieved successfully",
     successUpload: "File uploaded successfully",

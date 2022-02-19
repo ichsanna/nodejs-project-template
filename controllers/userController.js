@@ -11,7 +11,12 @@ const userMethods = {
         try {
             let id = req.params.id
             let data = await User.findById(id).select('username created')
-            res.status(200).json(resFormat(true,msg.successGetUser,data))
+            if (data){
+                res.status(200).json(resFormat(true,msg.successGetUser,data))
+            }
+            else{
+                res.status(404).json(resFormat(false,msg.noUser,data))
+            }
         }
         catch (err) {
             res.status(400).json(resFormat(false,null,err))
@@ -20,7 +25,12 @@ const userMethods = {
     getAllUsers: async (req, res) => {
         try {
             let users = await User.find().select('username created').exec()
-            res.status(200).json(resFormat(true,msg.successGetUsers,users))
+            if (users) {
+                res.status(200).json(resFormat(true,msg.successGetUsers,users))
+            }
+            else{
+                res.status(404).json(resFormat(false,msg.noUser,data))
+            }
         }
         catch (err) {
             res.status(400).json(resFormat(false,null,err))
