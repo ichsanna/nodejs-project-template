@@ -53,14 +53,21 @@ const userMethods = {
         try {
             let username = req.body.username
             let password = req.body.password
-            let encryptedPassword = await bcrypt.hash(password, 10)
-            let newUser = new User({
-                username: username,
-                password: encryptedPassword
-            })
-            newUser.save()
-            let token = signToken(username)
-            res.json(resFormat(true,msg.successLogin,{ token: token }))
+            let getUser = await User.findOne({ username: username }).select('username created')
+            if (getUser) {
+                res.json(resFormat(false,msg.duplicateUsername,getUser))
+            }
+            else {
+                let encryptedPassword = await bcrypt.hash(password, 10)
+                let newUser = new User({
+                    username: username,
+                    password: encryptedPassword
+                })
+                
+                newUser.save()
+                let token = signToken(username)
+                res.json(resFormat(true,msg.successLogin,{ token: token }))
+            }
         }
         catch (err) {
             res.json(resFormat(false,null,err))
