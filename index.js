@@ -11,6 +11,8 @@ const msg = require('./configs/responseMessages')
 
 const app = express()
 
+app.disable('x-powered-by')
+
 app.use(morgan('tiny'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
